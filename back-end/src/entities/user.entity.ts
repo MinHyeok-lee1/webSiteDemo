@@ -149,5 +149,9 @@ export class PartialTypeOmitClass extends PartialType(
 }
 
 export class User extends UserInfo {
-  // createdAt: Date;
+  @ApiProperty({ type: Date })
+  @IsDateString()
+  @IsOptional()
+  @prop()
+  createdAt?: Date;
 }

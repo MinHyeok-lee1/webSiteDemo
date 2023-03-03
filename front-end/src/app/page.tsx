@@ -5,7 +5,7 @@ export default function Page() {
   const getdata = use(getSomething());
   return (
     <>
-      <h1>메인 페이지 </h1>
+      <h1>순위표</h1>
       <div>
         <table>
           <thead>
@@ -14,18 +14,29 @@ export default function Page() {
               <th>직업</th>
               <th>나이</th>
               <th>전공</th>
-              <th>스킬</th>
+
+              <th>LV</th>
+              <th>SP</th>
+              <th>HP</th>
+              <th>MP</th>
+
+              <th>보유 스킬</th>
             </tr>
           </thead>
           <tbody>
-            {getdata.map((data: any) => (
+            {getdata.map((data) => (
               <tr key={data._id}>
-                <td>{data.name}</td>
-                <td>{data.role}</td>
-                <td>{data.age}</td>
-                <td>{data.major}</td>
+                <td>{data.userBase.name}</td>
+                <td>{data.userBase.role}</td>
+                <td>{data.userBase.age}</td>
+                <td>{data.userBase.major}</td>
 
-                {data.skills.map((skill: string, idx: number) => (
+                <td>{data.userPower.level}</td>
+                <td>{data.userPower.sheildPower}</td>
+                <td>{data.userPower.swordPower}</td>
+                <td>{data.userPower.magicPower}</td>
+
+                {data.userPower.skills.map((skill, idx: number) => (
                   <td key={idx}>{skill}</td>
                 ))}
               </tr>

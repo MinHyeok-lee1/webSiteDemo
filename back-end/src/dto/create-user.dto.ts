@@ -13,13 +13,7 @@ import {
 } from 'class-validator';
 import { User, userBaseInfo, userStrongInfo } from '../entities/user.entity';
 
-export class CreateUserDto extends PartialType(User) {
-  @ApiProperty({ type: Date })
-  @IsDateString()
-  @IsOptional()
-  @prop()
-  createdAt?: Date;
-}
+export class CreateUserDto extends PartialType(User) {}
 
 // export class CreateUsersDto {
 //   @ApiProperty({ type: () => [CreateUserDto] })
