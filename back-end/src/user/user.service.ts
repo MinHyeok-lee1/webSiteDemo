@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { DeleteResult } from 'mongodb';
+import { FilterQuery } from 'mongoose';
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User, UserRole } from '../entities/user.entity';
@@ -161,14 +162,16 @@ export class UserService {
     //   'userBase.name': 1,
     // });
     const query = this.userModel.find({
-      'userBase.role': 'Magician',
-      'userBase.name': { $regex: '3' },
+      // 'userBase.role': 'Magician',
+      'userBase.name': /333/,
+      // 'userBase.name': { $eq: 'userDummy1333' },
+      // 'userBase.name': { $regex: '333' },
     });
 
     const y: any = await this.userModel
       .find({
-        'userBase.role': 'Magician',
-        'userBase.name': { $regex: '3' },
+        // 'userBase.role': 'Magician',
+        'userBase.name': /333/,
       })
       .explain('executionStatus');
 
@@ -176,11 +179,13 @@ export class UserService {
 
     const x = query.exec();
     // if (!x) throw new BadRequestException();
+
+    console.log('Document Number = ', (await x).length);
     return x;
   }
 
-  async deleteAll(): Promise<void> {
+  async deleteAll(): Promise<DeleteResult> {
     // let fQuery: FilterQuery<User> = { _Id: token._Id };
-    // return await this.userModel.deleteMany({});
+    return await this.userModel.deleteMany({});
   }
 }
