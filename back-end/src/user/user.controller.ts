@@ -55,7 +55,6 @@ export class UserController {
     summary: `새로운 User 추가`,
   })
   async createUser(@Body() usersDto: CreateUserDto) {
-    console.log(usersDto);
     return this.userService.createOne(usersDto);
   }
 
@@ -73,7 +72,7 @@ export class UserController {
     summary: `User 정보 전체 반환`,
   })
   @ApiResponse({ description: '모든 차량 리스트' })
-  async findAllCars(): Promise<User> {
+  async findAllCars(): Promise<User[]> {
     return await this.userService.getAll();
   }
 

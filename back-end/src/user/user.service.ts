@@ -66,7 +66,6 @@ export class UserService {
       userList.push(user);
     }
 
-    console.log(userList);
     const createUser = await this.userModel.insertMany(userList);
     return createUser;
   }
@@ -138,7 +137,7 @@ export class UserService {
     return page3;
   }
 
-  async getAll(): Promise<User> {
+  async getAll(): Promise<User[]> {
     // try {
     //   await this.model.findOne({ _id: 'zz' });
     // } catch (err) {
@@ -155,15 +154,33 @@ export class UserService {
     //   age: { $gte: 0 },
     // });
 
-    const query = this.userModel.findOne({});
-    query.find({});
-    const x = await query.exec();
+    // const query = this.userModel.findOne({});
+
+    // const t = await this.userModel.ensureIndexes({
+    //   'userBase.role': 1,
+    //   'userBase.name': 1,
+    // });
+    const query = this.userModel.find({
+      'userBase.role': 'Magician',
+      'userBase.name': { $regex: '3' },
+    });
+
+    const y: any = await this.userModel
+      .find({
+        'userBase.role': 'Magician',
+        'userBase.name': { $regex: '3' },
+      })
+      .explain('executionStatus');
+
+    console.log('인덱싱 후 = ', y.executionStats.executionTimeMillis);
+
+    const x = query.exec();
     // if (!x) throw new BadRequestException();
     return x;
   }
 
-  async deleteAll(): Promise<DeleteResult> {
+  async deleteAll(): Promise<void> {
     // let fQuery: FilterQuery<User> = { _Id: token._Id };
-    return await this.userModel.deleteMany({});
+    // return await this.userModel.deleteMany({});
   }
 }

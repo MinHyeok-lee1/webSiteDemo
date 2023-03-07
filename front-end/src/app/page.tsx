@@ -1,8 +1,11 @@
-import { Fragment, use } from "react";
 import axios from "axios";
+import { getUserData } from "./api/route";
+import Layout from "./loading";
 
-export default function Page() {
-  const getdata = use(getSomething());
+// This is an async Server Component
+export default async function Page() {
+  const getData = await getUserData();
+
   return (
     <>
       <h1>순위표</h1>
@@ -24,7 +27,7 @@ export default function Page() {
             </tr>
           </thead>
           <tbody>
-            {getdata.map((data) => (
+            {getData.map((data: any) => (
               <tr key={data._id}>
                 <td>{data.userBase.name}</td>
                 <td>{data.userBase.role}</td>
@@ -36,7 +39,7 @@ export default function Page() {
                 <td>{data.userPower.swordPower}</td>
                 <td>{data.userPower.magicPower}</td>
 
-                {data.userPower.skills.map((skill, idx: number) => (
+                {data.userPower.skills.map((skill: [string], idx: number) => (
                   <td key={idx}>{skill}</td>
                 ))}
               </tr>
@@ -46,13 +49,4 @@ export default function Page() {
       </div>
     </>
   );
-}
-
-export async function getSomething() {
-  const res = await axios
-    .get("http://192.168.0.17:19004/user/all")
-    .then((res) => res.data);
-  // const data = await res.json();
-  console.log(res);
-  return res;
 }

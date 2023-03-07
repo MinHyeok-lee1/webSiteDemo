@@ -16,7 +16,7 @@ import {
   IsArray,
   ValidateNested,
 } from 'class-validator';
-import { prop } from '@typegoose/typegoose';
+import { index, prop } from '@typegoose/typegoose';
 import { Type } from 'class-transformer';
 
 export enum UserRole {
@@ -148,6 +148,10 @@ export class PartialTypeOmitClass extends PartialType(
   test4: number;
 }
 
+@index({
+  'userBase.role': 1,
+  'userBase.name': 1,
+})
 export class User extends UserInfo {
   @ApiProperty({ type: Date })
   @IsDateString()

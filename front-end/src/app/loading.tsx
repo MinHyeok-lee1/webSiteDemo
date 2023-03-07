@@ -1,3 +1,4 @@
+import Head from "next/head";
 import styles from "../styles/layout.module.css";
 
 interface childrenProps {
@@ -7,12 +8,13 @@ interface childrenProps {
 export default function Layout({ children }: childrenProps) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <title>LOL</title>
-      </head>
+      </Head>
       <body>
         <div className={styles.header}>From Layout</div>
-        {children}
+
+        {children ?? <h1>Loading...</h1>}
       </body>
     </html>
   );
