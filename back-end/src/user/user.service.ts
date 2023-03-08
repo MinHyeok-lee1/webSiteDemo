@@ -162,25 +162,62 @@ export class UserService {
     //   'userBase.name': 1,
     // });
     const query = this.userModel.find({
-      // 'userBase.role': 'Magician',
-      'userBase.name': /333/,
+      'userBase.role': 'Magician',
+      'userBase.name': /3/,
       // 'userBase.name': { $eq: 'userDummy1333' },
       // 'userBase.name': { $regex: '333' },
     });
 
-    const y: any = await this.userModel
-      .find({
-        // 'userBase.role': 'Magician',
-        'userBase.name': /333/,
-      })
+    // hint()의 사용
+    // const a: any = await this.userModel
+    //   .find({
+    //     'userBase.role': 'Magician',
+    //     'userBase.name': /3/,
+    //   })
+    //   .explain('executionStatus')
+    //   .hint({ $natural: 1 });
+
+    // const b: any = await this.userModel
+    //   .find({
+    //     'userBase.role': 'Magician',
+    //     'userBase.name': /3/,
+    //   })
+    //   .explain('executionStatus');
+
+    // 탐색순서의 중요성 (관계 없다)
+    // const a: any = await this.userModel
+    //   .find({
+    //     'userBase.name': /3/,
+    //     'userBase.role': 'Magician',
+    //   })
+    //   .explain('executionStatus');
+
+    // const b: any = await this.userModel
+    //   .find({
+    //     'userBase.role': 'Magician',
+    //     'userBase.name': /3/,
+    //   })
+    //   .explain('executionStatus');
+
+    // 정렬순서의 중요성 (관계 있다)
+    const a: any = await this.userModel
+      .find({})
+      .sort({ 'userBase.name': 1, 'userBase.role': 1 })
       .explain('executionStatus');
 
-    console.log('인덱싱 후 = ', y.executionStats.executionTimeMillis);
+    const b: any = await this.userModel
+      .find({})
+      .sort({ 'userBase.role': 1, 'userBase.name': 1 })
+      .explain('executionStatus');
+
+    console.log('인덱싱 전 = ', a.executionStats.executionTimeMillis);
+
+    console.log('인덱싱 후 = ', b.executionStats.executionTimeMillis);
 
     const x = query.exec();
     // if (!x) throw new BadRequestException();
 
-    console.log('Document Number = ', (await x).length);
+    // console.log('Document Number = ', (await x).length);
     return x;
   }
 
