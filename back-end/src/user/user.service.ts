@@ -200,20 +200,54 @@ export class UserService {
     //   .explain('executionStatus');
 
     // 정렬순서의 중요성 (관계 있다)
-    const a: any = await this.userModel
-      .find({})
-      .sort({ 'userBase.name': 1, 'userBase.role': 1 })
-      .explain('executionStatus');
+    // const a: any = await this.userModel
+    //   .find({})
+    //   .sort({ 'userBase.name': 1, 'userBase.role': 1 })
+    //   .explain('executionStatus');
 
-    const b: any = await this.userModel
-      .find({})
-      .sort({ 'userBase.role': 1, 'userBase.name': 1 })
-      .explain('executionStatus');
+    // const b: any = await this.userModel
+    //   .find({})
+    //   .sort({ 'userBase.role': 1, 'userBase.name': 1 })
+    //   .explain('executionStatus');
 
-    console.log('인덱싱 전 = ', a.executionStats.executionTimeMillis);
+    // console.log('인덱싱 전 = ', a);
 
-    console.log('인덱싱 후 = ', b.executionStats.executionTimeMillis);
+    // console.log('인덱싱 후 = ', b);
 
+    // const a = await this.userModel.find({
+    //   'userBase.name': /33333/,
+    // });
+
+    // 'userBase.name': /43333/,
+    // 'userBase.role': 'Magician',
+
+    // const a = await this.userModel
+    //   .find({
+    //     'userBase.name': { $eq: /userDummy3/ },
+    //     'userBase.role': 'Magician',
+    //   })
+    //   .then();
+
+    const b = await this.userModel.find({
+      userBase: { name: 'userDummy3', role: 'Magician', age: 1, major: 1 },
+    });
+
+    // const c = await this.userModel
+    //   .find({
+    //     userBase: { name: 'userDummy3', role: 'Magician' },
+    //   })
+    //   .exec();
+    // const b = await this.userModel.find({
+    //   'userBase.name': { $regex: /userDummy3/ },
+    // });
+    const c = await this.userModel.find({
+      userBase: { major: 1, age: 1, role: 'Magician', name: 'userDummy3' },
+    });
+    // console.log('a', a.length);
+    console.log('b', b);
+    console.log('c', c);
+    // console.log('result = ', (await a) == (await c));
+    return;
     const x = query.exec();
     // if (!x) throw new BadRequestException();
 
