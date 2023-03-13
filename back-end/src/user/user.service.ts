@@ -243,10 +243,10 @@ export class UserService {
     const c = await this.userModel.find({
       userBase: { major: 1, age: 1, role: 'Magician', name: 'userDummy3' },
     });
+
     // console.log('a', a.length);
-    console.log('b', b);
-    console.log('c', c);
     // console.log('result = ', (await a) == (await c));
+
     return;
     const x = query.exec();
     // if (!x) throw new BadRequestException();
